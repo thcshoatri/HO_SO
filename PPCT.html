@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KHGD - Phân phối chương trình</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#eef4fa;color:#17324d}
+header{background:linear-gradient(135deg,#0d3b66,#0876e8);color:#fff;text-align:center;padding:28px 18px 24px;box-shadow:0 4px 14px rgba(0,0,0,.14)}
+header .school{font-weight:700;letter-spacing:.8px}
+header h1{margin:8px 0 4px;font-size:28px}
+header .sub{font-size:14px;opacity:.95}
+.container{max-width:1180px;margin:26px auto;padding:0 18px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.home{background:#213f5a;color:#fff;text-decoration:none;padding:10px 14px;border-radius:10px;font-weight:700}
+.search{flex:1;min-width:240px;max-width:420px;padding:11px 13px;border:1px solid #cbd8e6;border-radius:10px;font-size:14px;background:#fff}
+.section-title{margin:8px 0 14px;font-size:23px;color:#07559f;border-left:4px solid #0b7df0;padding-left:10px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.subject-card{display:block;background:#fff;text-decoration:none;color:#17324d;border:1px solid #e0e8f1;border-radius:16px;padding:22px;text-align:center;box-shadow:0 5px 16px rgba(0,0,0,.06);transition:.2s}
+.subject-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.10);border-color:#8ec5ff}
+.icon{width:58px;height:58px;border-radius:50%;background:#e8f3ff;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px}
+.name{font-weight:800;color:#074f96;font-size:17px}
+.desc{margin-top:8px;font-size:13px;color:#6b7d90}
+.hidden{display:none!important}
+.note{margin-top:20px;background:#fff;border-radius:12px;padding:13px 16px;color:#5b6e82;border:1px solid #dce6f0;font-size:13px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid{grid-template-columns:1fr} header h1{font-size:22px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="school">TRƯỜNG THCS HÒA TRÍ</div>
+  <h1>KHGD - PHÂN PHỐI CHƯƠNG TRÌNH</h1>
+  <div class="sub">Năm học 2026-2027</div>
+</header>
+<div class="container">
+  <div class="topbar">
+    <a class="home" href="index.html">← Trang chủ</a>
+    <input id="searchBox" class="search" type="text" placeholder="Tìm môn/hoạt động...">
+  </div>
+  <h2 class="section-title">Danh mục môn học và hoạt động giáo dục</h2>
+  <div class="grid" id="subjectGrid"><a class="subject-card" href="https://drive.google.com/drive/folders/1HhdOgrbiGx39crg977LdhyswEZQ3ISP7" target="_blank">
+      <div class="icon">➗</div>
+      <div class="name">TOÁN</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a>
+<a class="subject-card" href="https://drive.google.com/drive/folders/1VgQqvb3xJ26cudeCuUJ1rWeH07AuG4LQ" target="_blank">
+      <div class="icon">📖</div>
+      <div class="name">NGỮ VĂN</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a>
+<a class="subject-card" href="https://drive.google.com/drive/folders/1BuPh_Z_LNbOe7GxqjK5ZaHQgaAKiaAoa" target="_blank">
+      <div class="icon">🔤</div>
+      <div class="name">TIẾNG ANH</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a>
+<a class="subject-card" href="https://drive.google.com/drive/folders/1PV4De57Ad_QdtGvqmKWdxghL06k7ZbnC" target="_blank">
+      <div class="icon">🔬</div>
+      <div class="name">KHOA HỌC TỰ NHIÊN</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a>
+<a class="subject-card" href="https://drive.google.com/drive/folders/10yKab8imn2K37CZF7UrJ-tEw_ga6w_M1" target="_blank">
+      <div class="icon">🌍</div>
+      <div class="name">LỊCH SỬ VÀ ĐỊA LÍ</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a>
+<a class="subject-card" href="https://drive.google.com/drive/folders/1tfwaSiGezbg-1qrmwOrgDyeTlTWQbWfo" target="_blank">
+      <div class="icon">⚖️</div>
+      <div class="name">GDCD</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a>
+<a class="subject-card" href="https://drive.google.com/drive/folders/1WM_xhXqJkK4MZMkOoBrvwKKd8JvmkuU4" target="_blank">
+      <div class="icon">⚙️</div>
+      <div class="name">CÔNG NGHỆ</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a>
+<a class="subject-card" href="https://drive.google.com/drive/folders/1dfTMc4-_nYIjhXXn89OCdv6k32sikCT0" target="_blank">
+      <div class="icon">💻</div>
+      <div class="name">TIN HỌC</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a>
+<a class="subject-card" href="https://drive.google.com/drive/folders/1axwe0XEOrX_MvTtcJziI82aAywcgtBh-" target="_blank">
+      <div class="icon">🏃</div>
+      <div class="name">GDTC</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a>
+<a class="subject-card" href="https://drive.google.com/drive/folders/1mCwtTXE3BhrB3T7BDm-bv0JziOvOsrFP" target="_blank">
+      <div class="icon">🎨</div>
+      <div class="name">NGHỆ THUẬT</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a>
+<a class="subject-card" href="https://drive.google.com/drive/folders/142BqQvZtapTGSycjL-yxfeTQM3PDgU6_" target="_blank">
+      <div class="icon">🧭</div>
+      <div class="name">HĐTN-HN</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a>
+<a class="subject-card" href="https://drive.google.com/drive/folders/1gmMVeS4fssKhsEnCebWa81UKOqts926P" target="_blank">
+      <div class="icon">🏡</div>
+      <div class="name">GDĐP</div>
+      <div class="desc">Mở KHGD - PPCT môn/hoạt động</div>
+    </a></div>
+  <div class="note">KHGD - PPCT được tổ chức theo môn học/hoạt động giáo dục; bấm vào từng thẻ để mở thư mục Drive tương ứng.</div>
+</div>
+<script>
+const box = document.getElementById('searchBox');
+const cards = [...document.querySelectorAll('.subject-card')];
+box.addEventListener('input', () => {
+  const q = box.value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  cards.forEach(card => {
+    const t = card.innerText.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+    card.classList.toggle('hidden', q && !t.includes(q));
+  });
+});
+</script>
+</body>
+</html>
