@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản lý hồ sơ - Kế hoạch bài dạy giáo viên</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#eef4fa;color:#17324d}
+header{background:linear-gradient(135deg,#0d3b66,#0876e8);color:white;text-align:center;padding:26px 18px 24px;box-shadow:0 4px 14px rgba(0,0,0,.16)}
+header .school{font-size:17px;font-weight:700;letter-spacing:.7px}
+header h1{margin:8px 0 4px;font-size:29px}
+header .sub{font-size:14px;opacity:.93}
+.container{max-width:1200px;margin:26px auto;padding:0 18px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.home,.team-btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;text-decoration:none}
+.home{background:#213f5a;color:white}
+.team-btn{background:#dceafe;color:#1253a4}
+.team-btn.active{background:#0b7df0;color:white;box-shadow:0 4px 12px rgba(11,125,240,.25)}
+.filters{background:white;border-radius:14px;padding:16px;display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr auto;gap:12px;box-shadow:0 5px 18px rgba(0,0,0,.07);align-items:end}
+.filter-group label{display:block;font-size:12px;font-weight:700;margin:0 0 6px;color:#345}
+.filter-group input,.filter-group select{width:100%;padding:12px;border:1px solid #cbd8e6;border-radius:10px;background:white;font-size:14px}
+.reset{padding:12px 14px;border:0;border-radius:10px;background:#edf1f5;font-weight:700;cursor:pointer}
+.stats{margin:14px 0 10px;background:white;border:1px solid #dbe5ef;border-radius:12px;padding:11px 15px;font-weight:700;color:#1d5a93;display:flex;gap:16px;flex-wrap:wrap}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:14px 0 8px}
+.section-head h2{margin:0;font-size:23px;border-left:4px solid #0b7df0;padding-left:10px;color:#07559f}
+.count{color:#60758a;font-size:14px}
+.table-wrap{background:white;border-radius:14px;overflow:hidden;box-shadow:0 5px 18px rgba(0,0,0,.06)}
+table{width:100%;border-collapse:collapse}
+th{background:#eaf2fb;color:#174a7c;font-size:12px;text-align:left;padding:12px}
+td{padding:12px;border-top:1px solid #e6edf5;font-size:14px}
+td.name{font-weight:700}
+.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#e7f0fb;color:#1764b3;font-size:12px;font-weight:700}
+.site{background:#edf1f4;color:#54606c}
+.type{background:#eef8ed;color:#2d7b3d}
+.open{display:inline-block;background:#0b86f7;color:white;text-decoration:none;font-weight:700;padding:9px 14px;border-radius:999px;box-shadow:0 3px 8px rgba(11,134,247,.25)}
+.cards{display:none}
+.empty{padding:24px;text-align:center;color:#708090}
+@media(max-width:900px){
+  .filters{grid-template-columns:1fr 1fr}
+  .reset{width:100%}
+}
+@media(max-width:700px){
+  header h1{font-size:22px}
+  .filters{grid-template-columns:1fr}
+  table{display:none}
+  .cards{display:grid;gap:12px;padding:12px}
+  .card{border:1px solid #e0e8f1;border-radius:12px;padding:14px;background:white}
+  .card h3{margin:0 0 8px;font-size:16px}
+  .meta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+  .open{width:100%;text-align:center}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="school">TRƯỜNG THCS HÒA TRÍ</div>
+  <h1>QUẢN LÝ HỒ SƠ - KẾ HOẠCH BÀI DẠY GIÁO VIÊN</h1>
+  <div class="sub">Năm học 2026-2027</div>
+</header>
+
+<div class="container">
+  <div class="toolbar">
+    <a class="home" href="index.html">← Trang chủ</a>
+    <div id="teamButtons"></div>
+  </div>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label>Tìm giáo viên</label>
+      <input id="searchBox" type="text" placeholder="Nhập họ và tên...">
+    </div>
+    <div class="filter-group">
+      <label>Môn/Nhóm chuyên môn</label>
+      <select id="subjectFilter"><option value="">Tất cả</option></select>
+    </div>
+    <div class="filter-group">
+      <label>Điểm trường</label>
+      <select id="siteFilter">
+        <option value="">Tất cả</option>
+        <option value="ĐC">ĐC</option>
+        <option value="PH1">PH1</option>
+        <option value="PH2">PH2</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Loại nhân sự</label>
+      <select id="typeFilter">
+        <option value="">Tất cả</option>
+        <option value="Biên chế">Biên chế</option>
+        <option value="Hợp đồng">Hợp đồng</option>
+      </select>
+    </div>
+    <button class="reset" id="resetBtn">Xóa lọc</button>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="section-head">
+    <h2>Danh sách giáo viên</h2>
+    <div class="count" id="countText"></div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>STT</th><th>HỌ VÀ TÊN GIÁO VIÊN</th><th>TỔ</th><th>MÔN/NHÓM CHUYÊN MÔN</th><th>ĐIỂM</th><th>LOẠI NS</th><th>HỒ SƠ</th></tr>
+      </thead>
+      <tbody id="teacherBody"></tbody>
+    </table>
+    <div class="cards" id="teacherCards"></div>
+    <div class="empty" id="emptyMsg" style="display:none">Không có giáo viên phù hợp bộ lọc.</div>
+  </div>
+</div>
+
+<script>
+const teachers = [{"name": "Đặng Thị Xuân Anh", "team": "KHTN - GDTC", "subject": "Sinh học", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1no41U5KkReXbZpenvZRw-1WLWiEM-gK3"}, {"name": "Hồ Viết Đơn", "team": "KHTN - GDTC", "subject": "Sinh học", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1ubXJve38OUuB4nozK6OfcnznjjsRK5th"}, {"name": "Huỳnh Đức Hòa", "team": "KHTN - GDTC", "subject": "Vật lí", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/10cuzftyNPlgIz7abDyqO6-JbnRA0lBZX"}, {"name": "Lê Hường", "team": "KHTN - GDTC", "subject": "Hóa học", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1UWYDNNToHvZDPuomd28kcyx0NHmGanXK"}, {"name": "Lê Quang Tứ", "team": "KHTN - GDTC", "subject": "GDTC", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1UAa1C36y4-BJBMQcE7Aa4AwJRYojew3Y"}, {"name": "Lưu Nhân Đức", "team": "KHTN - GDTC", "subject": "Sinh học", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/16BL-jw7AhMGOKNLvGxClUJ543QFyp8VZ"}, {"name": "Lưu Thị Minh Phượng", "team": "KHTN - GDTC", "subject": "Sinh học", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1vILAQAkEWfJQt7ljh7-mNKHKD-HIPqSV"}, {"name": "Nguyễn Đình Khánh", "team": "KHTN - GDTC", "subject": "Vật lí", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/12ukqazqlTKWcVL6OFXoVyVtDmSwGzqd-"}, {"name": "Nguyễn Phạm Thị Hồng Phước", "team": "KHTN - GDTC", "subject": "Vật lí", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1QoGo-iosECMbdTCzIkC9bhywS5uMav3B"}, {"name": "Nguyễn Thị Phi Yến", "team": "KHTN - GDTC", "subject": "GDTC", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1P1Y5TdgYnb3ELJ2tPFTgoTENmzpAv713"}, {"name": "Nguyễn Thị Thanh Hóa", "team": "KHTN - GDTC", "subject": "Sinh học", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1sgckyHKj2YbuW5I0yxvWWGuEpy0ksHX7"}, {"name": "Nguyễn Trương Thành", "team": "KHTN - GDTC", "subject": "GDTC", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1GTLwVpu3gL8Ijn-k7Bh1KCXsjmx3dRRc"}, {"name": "Trần Trọng Kiêm", "team": "KHTN - GDTC", "subject": "Hóa học", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1dw7FIdPHchAoulZsHuR83owmLRJvwvSs"}, {"name": "Trương Hoài Nhơn", "team": "KHTN - GDTC", "subject": "GDTC", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/17M6x8rgC7EbQjCNHNh9zX2xbUN8UVm82"}, {"name": "Võ Thị Mỹ Hạnh", "team": "KHTN - GDTC", "subject": "GDTC", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/19LOQABH5N5dXDAI-gmuRUGmt5q8vsDF_"}, {"name": "Võ Văn Ninh", "team": "KHTN - GDTC", "subject": "GDTC", "site": "ĐC", "type": "Hợp đồng", "link": "https://drive.google.com/drive/folders/1Wm1GLm0GpzoTXf9PCDFm-Wnitbjf7KPS"}, {"name": "Châu Minh Khương", "team": "Ngữ văn - Thư viện", "subject": "HĐTN-HN", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1Y55w6npNRLLgBtD-VLRZhG2JPttmieRd"}, {"name": "Đinh Như Quỳnh", "team": "Ngữ văn - Thư viện", "subject": "Ngữ văn", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1wLSnX4fyVdQaIKwCuEdL-nE6TLiPTZDs"}, {"name": "Lê Phương Lam", "team": "Ngữ văn - Thư viện", "subject": "Ngữ văn", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1cvCRtrC0xyXNZXbdwPxrspFEuAtFHyTi"}, {"name": "Lê Quốc Việt", "team": "Ngữ văn - Thư viện", "subject": "Ngữ văn", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/14K55w6DhfvCaT_B1u0iyf5j853W7YVE1"}, {"name": "Nguyễn Hà Trí Đại", "team": "Ngữ văn - Thư viện", "subject": "Ngữ văn", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1i7PVp72rgYgCDsnVnR1NDbMzgljP2iJ5"}, {"name": "Nguyễn Thị Ngọc Bình", "team": "Ngữ văn - Thư viện", "subject": "Ngữ văn", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1_mygZ6KbWsLPI40mWs7uKzPyhHrr5Gz_"}, {"name": "Nguyễn Thị Xuân", "team": "Ngữ văn - Thư viện", "subject": "Ngữ văn", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1qQBIVDDtVhGkqENDLnSsKUlAZOO94qvY"}, {"name": "Nguyễn Văn Anh", "team": "Ngữ văn - Thư viện", "subject": "Ngữ văn", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1KZcMtUH5TWuYeLzaHZBwrMLzgq6HZ2a0"}, {"name": "Phạm Ngọc Kim Thiện", "team": "Ngữ văn - Thư viện", "subject": "Ngữ văn", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1lVQzjCvfbQgGXrJQCIlA-ksXdOafsGOQ"}, {"name": "Phan Trọng Hùng", "team": "Ngữ văn - Thư viện", "subject": "Ngữ văn", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1aOzEky6X4qzvTB2BdwW6btwib2s97rBZ"}, {"name": "Trần Thị Bích Thoa", "team": "Ngữ văn - Thư viện", "subject": "Ngữ văn", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1qOFxkR-r7xG802nUo6qkhX8wWH6X8wuA"}, {"name": "Đoàn Thị Hằng", "team": "Lịch sử - Địa lí - GDCD - Thiết bị", "subject": "Địa lí", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1RbceJlI9sognZGEUiL9Ru62ikBUUCbr3"}, {"name": "Hà Thị Kim Truyền", "team": "Lịch sử - Địa lí - GDCD - Thiết bị", "subject": "GDCD", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1osBoJ8CXRxeYU_VX4vLPMXiN68UK48D9"}, {"name": "Huỳnh Thị Kim Chi", "team": "Lịch sử - Địa lí - GDCD - Thiết bị", "subject": "Lịch sử - GDCD", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1hkmdXdrhrgYi9yYLTzOiARkKtm21Y6pO"}, {"name": "Huỳnh Thị Thanh Bình", "team": "Lịch sử - Địa lí - GDCD - Thiết bị", "subject": "Lịch sử - GDCD", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1L3S-2_HkMo1EiY7WvuCDfMPfIsea9VJL"}, {"name": "Huỳnh Thị Thanh Nữ", "team": "Lịch sử - Địa lí - GDCD - Thiết bị", "subject": "Địa lí", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1AehsUxC39-p-s0Arnm4FcdebE0_V3i3Q"}, {"name": "Lê Thị Diệu", "team": "Lịch sử - Địa lí - GDCD - Thiết bị", "subject": "Địa lí", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1GYasKhvuTac4Ynyx3S99DYbfZUZZa-It"}, {"name": "Lê Thị Thanh Duyên", "team": "Lịch sử - Địa lí - GDCD - Thiết bị", "subject": "GDCD", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1FWtf52SHyp7QwacGOtJoVmP3VDHDRJwe"}, {"name": "Lương Thị Nhiên", "team": "Lịch sử - Địa lí - GDCD - Thiết bị", "subject": "Lịch sử", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1kshipHySotozcyb0HNY_9_BuZxCZVWEf"}, {"name": "Nguyễn Thị Thúy Liễu", "team": "Lịch sử - Địa lí - GDCD - Thiết bị", "subject": "Lịch sử - GDCD", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1QH4W4LA1kqv7NMbhhnw60YnOr0jMijXj"}, {"name": "Phan Tiến Dũng", "team": "Lịch sử - Địa lí - GDCD - Thiết bị", "subject": "Lịch sử", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1P2m2P_DOul5_A-Hb_z-OTyY0ioo60bPf"}, {"name": "Trần Thị Ân", "team": "Lịch sử - Địa lí - GDCD - Thiết bị", "subject": "Lịch sử", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1DD0xhE6UgJ1UF-9vc6gbrdw-8jU_xZlk"}, {"name": "Ngô Thị Thùy Lam", "team": "Tiếng Anh - Nghệ thuật", "subject": "Tiếng Anh", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1XuPtQGSKJS8mPu2kyXGHVNALYOjCj2z1"}, {"name": "Ngô Văn Thông", "team": "Tiếng Anh - Nghệ thuật", "subject": "Tiếng Anh", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1XZC2rTZvjTgA9F2xsqu11keDrkRTvhi6"}, {"name": "Nguyễn Thị Phương Thanh", "team": "Tiếng Anh - Nghệ thuật", "subject": "Âm nhạc", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1M4fl9V8BlXOT3a_XNf_VWFVfqPVoSBi1"}, {"name": "Nguyễn Thị Tuyết", "team": "Tiếng Anh - Nghệ thuật", "subject": "Mĩ thuật", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/12fSjUv8u-mj14DUE4Be04LTTPVHDi0mN"}, {"name": "Lê Thị Thanh Thoại", "team": "Tiếng Anh - Nghệ thuật", "subject": "Mĩ thuật", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1XM2kh-nTCLhC3zXgLi8RmVq5ncXc_Ebj"}, {"name": "Lượng Thị Hòa Việt", "team": "Tiếng Anh - Nghệ thuật", "subject": "Tiếng Anh", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/12I37rfycIsnVcTI-cCnSQYEdCG2I9qbG"}, {"name": "Nguyễn Thị Kim Thoa", "team": "Tiếng Anh - Nghệ thuật", "subject": "Âm nhạc", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1RYbRUCTjZULP94Idnf6Ejcx0ZhbCMwUY"}, {"name": "Nguyễn Thị Ngọc Trinh", "team": "Tiếng Anh - Nghệ thuật", "subject": "Tiếng Anh", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1_oUeXCoPO1A1cILYnwgFXbSOUqF4i4xZ"}, {"name": "Nguyễn Thị Thu Diễm", "team": "Tiếng Anh - Nghệ thuật", "subject": "Tiếng Anh", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1J3ctxg7puZWfiA52E_fanIVLRm21uSCe"}, {"name": "Nguyễn Văn Huy", "team": "Tiếng Anh - Nghệ thuật", "subject": "Tiếng Anh", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1b3abUk_1rYmjZLuM7XYIDpmNDZSNCZ2H"}, {"name": "Phạm Thị Hiếu", "team": "Tiếng Anh - Nghệ thuật", "subject": "Âm nhạc", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1DeaK1uOtZwLHxt5gDx-v5ttT0piKcKBQ"}, {"name": "Cao Thị Cẩm Vân", "team": "Toán - Tin - Công nghệ", "subject": "Toán - Tin", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1HEl3PjdO-M9yIPOh-qJzRklmO9e54SDo"}, {"name": "Lê Hữu Phát", "team": "Toán - Tin - Công nghệ", "subject": "Toán - Vật lí", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1sZrWfcM7febJ7_1kIIiwziG1LIrOXDLH"}, {"name": "Lê Thị Xuân", "team": "Toán - Tin - Công nghệ", "subject": "Toán - Tin", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1GSOIfe6v3lXIPXJ0y2vVyEkzDlXYzkPH"}, {"name": "Ngô Thái Hoàng Nam", "team": "Toán - Tin - Công nghệ", "subject": "Toán", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1lqKEW4dABdBVm2dDqgYD-B4NJabSqGhg"}, {"name": "Ngô Thành Trung", "team": "Toán - Tin - Công nghệ", "subject": "Toán - Tin", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1tq3Ev5aIGshTp48RCou6fKfYYZ3t90fn"}, {"name": "Ngô Thị Ngọc Liên", "team": "Toán - Tin - Công nghệ", "subject": "Toán - Tin", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1wvyblgDRM0xoSmfjIlyqXJaB5TaEpKzB"}, {"name": "Nguyễn Sinh", "team": "Toán - Tin - Công nghệ", "subject": "Toán", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1bEHoABIY0te1orHeTvNaFrP7Y7UaGVK3"}, {"name": "Nguyễn Thị Hồng Hạnh", "team": "Toán - Tin - Công nghệ", "subject": "Toán - Tin", "site": "PH1", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1qpLcv7CRZepEz6k8H5VOS_dhJkCRCLpD"}, {"name": "Nguyễn Thị Khánh Ly", "team": "Toán - Tin - Công nghệ", "subject": "Tin học", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1yGiA89mGjrqKzZk6MYDzDXM93Fh0j4e4"}, {"name": "Phạm Thị Kim Thoa", "team": "Toán - Tin - Công nghệ", "subject": "Tin học", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1Y1dDZevkLPkILmQ0Z2_v6jfzy3j9bACC"}, {"name": "Phó Trúc Duyên", "team": "Toán - Tin - Công nghệ", "subject": "Toán", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/17dqOYhwlO3Y_0EDo69O2Ls5iEA4763P2"}, {"name": "Trương Văn Sơn", "team": "Toán - Tin - Công nghệ", "subject": "Toán - Công nghệ", "site": "ĐC", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/1iPtj-QHqj1VnkUI0b1gA8EjXtDUEc25H"}, {"name": "Văn Quỳnh Phương Thảo", "team": "Toán - Tin - Công nghệ", "subject": "Toán", "site": "PH2", "type": "Biên chế", "link": "https://drive.google.com/drive/folders/13ITmMY8C-XrxuxGirVx1T_fvrwXZLNwj"}];
+const teams = ["KHTN - GDTC", "Ngữ văn - Thư viện", "Lịch sử - Địa lí - GDCD - Thiết bị", "Tiếng Anh - Nghệ thuật", "Toán - Tin - Công nghệ"];
+let currentTeam = teams[0];
+
+const teamButtons = document.getElementById('teamButtons');
+const searchBox = document.getElementById('searchBox');
+const subjectFilter = document.getElementById('subjectFilter');
+const siteFilter = document.getElementById('siteFilter');
+const typeFilter = document.getElementById('typeFilter');
+const teacherBody = document.getElementById('teacherBody');
+const teacherCards = document.getElementById('teacherCards');
+const stats = document.getElementById('stats');
+const countText = document.getElementById('countText');
+const emptyMsg = document.getElementById('emptyMsg');
+
+function normalize(s){
+  return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+}
+
+function renderTeamButtons(){
+  teamButtons.innerHTML = '';
+  teams.forEach(team => {
+    const b = document.createElement('button');
+    b.className = 'team-btn' + (team===currentTeam ? ' active' : '');
+    b.textContent = team;
+    b.onclick = () => {
+      currentTeam = team;
+      searchBox.value = '';
+      siteFilter.value = '';
+      typeFilter.value = '';
+      updateSubjectOptions();
+      renderTeamButtons();
+      render();
+    };
+    teamButtons.appendChild(b);
+  });
+}
+
+function updateSubjectOptions(){
+  const subjects = [...new Set(teachers.filter(t=>t.team===currentTeam).map(t=>t.subject))].sort((a,b)=>a.localeCompare(b,'vi'));
+  subjectFilter.innerHTML = '<option value="">Tất cả</option>' + subjects.map(s=>`<option value="${s}">${s}</option>`).join('');
+}
+
+function filtered(){
+  const q = normalize(searchBox.value);
+  return teachers.filter(t =>
+    t.team===currentTeam &&
+    (!q || normalize(t.name).includes(q)) &&
+    (!subjectFilter.value || t.subject===subjectFilter.value) &&
+    (!siteFilter.value || t.site===siteFilter.value) &&
+    (!typeFilter.value || t.type===typeFilter.value)
+  );
+}
+
+function render(){
+  const list = filtered();
+  teacherBody.innerHTML = '';
+  teacherCards.innerHTML = '';
+  emptyMsg.style.display = list.length ? 'none' : 'block';
+
+  list.forEach((t,i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${i+1}</td>
+      <td class="name">👤 ${t.name}</td>
+      <td><span class="badge">${t.team}</span></td>
+      <td><span class="badge">${t.subject}</span></td>
+      <td><span class="badge site">${t.site}</span></td>
+      <td><span class="badge type">${t.type}</span></td>
+      <td><a class="open" href="${t.link}" target="_blank">📁 Truy cập</a></td>`;
+    teacherBody.appendChild(tr);
+
+    const card = document.createElement('div');
+    card.className='card';
+    card.innerHTML = `<h3>👤 ${t.name}</h3>
+      <div class="meta">
+        <span class="badge">${t.team}</span>
+        <span class="badge">${t.subject}</span>
+        <span class="badge site">${t.site}</span>
+        <span class="badge type">${t.type}</span>
+      </div>
+      <a class="open" href="${t.link}" target="_blank">📁 Truy cập hồ sơ</a>`;
+    teacherCards.appendChild(card);
+  });
+
+  const dc = list.filter(t=>t.site==='ĐC').length;
+  const ph1 = list.filter(t=>t.site==='PH1').length;
+  const ph2 = list.filter(t=>t.site==='PH2').length;
+  const bc = list.filter(t=>t.type==='Biên chế').length;
+  const hd = list.filter(t=>t.type==='Hợp đồng').length;
+  stats.innerHTML = `<span>${currentTeam}</span><span>Đang hiển thị: ${list.length} GV</span><span>ĐC: ${dc}</span><span>PH1: ${ph1}</span><span>PH2: ${ph2}</span><span>Biên chế: ${bc}</span><span>Hợp đồng: ${hd}</span>`;
+  countText.textContent = `${list.length} giáo viên`;
+}
+
+document.getElementById('resetBtn').onclick = () => {
+  searchBox.value=''; subjectFilter.value=''; siteFilter.value=''; typeFilter.value=''; render();
+};
+searchBox.addEventListener('input', render);
+subjectFilter.addEventListener('change', render);
+siteFilter.addEventListener('change', render);
+typeFilter.addEventListener('change', render);
+
+renderTeamButtons();
+updateSubjectOptions();
+render();
+</script>
+</body>
+</html>
