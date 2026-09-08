@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)https://thcsninhhoa.github.io/HO_SO/ -->
+<html lang="vi"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Quản Lý Hồ Sơ</title>
+    <!-- Font Awesome & Google Fonts -->
+    <link rel="stylesheet" href="./Trang Quản Lý Hồ Sơ_files/all.min.css">
+    <link href="./Trang Quản Lý Hồ Sơ_files/css2" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER CẢI TIẾN: CÂN ĐỐI & SINH ĐỘNG */
+        header {
+            background: linear-gradient(135deg, #0d3b66 0%, #0056b3 50%, #007bff 100%);
+            color: #fff;
+            text-align: center;
+            padding: 35px 20px 30px 20px;
+            box-shadow: 0 6px 20px rgba(0, 64, 133, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Vệt sáng trang trí nền */
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+            pointer-events: none;
+        }
+
+        .header-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header .sub-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #d0e1fd;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 4px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(4px);
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        header .school-name {
+            font-size: 2rem;
+            font-weight: 900;
+            margin: 6px 0 10px 0;
+            color: #ffe066;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header .main-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 18px;
+            color: #ffffff;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 24px;
+            display: inline-block;
+        }
+
+        header .week-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            color: #004085;
+            padding: 8px 22px;
+            border-radius: 25px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+            transition: transform 0.2s ease;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        header .week-badge:hover {
+            transform: scale(1.03);
+        }
+
+        header .week-badge i {
+            color: #007bff;
+            font-size: 1.1rem;
+        }
+
+        header .week-badge .week-text {
+            font-weight: 700;
+            color: #004085;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            flex: 1;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .grid-container {
+            display: grid;
+            gap: 25px;
+        }
+
+        /* Layout 3 Dòng: Row 1 (2 mục), Row 2 (2 mục), Row 3 (2 mục căn giữa) */
+        .row-1, .row-2, .row-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        /* CARD STYLES */
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,123,255,0.2);
+            border-color: #007bff;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: #e3f2fd;
+            color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+            line-height: 1;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .card:hover .card-icon {
+            background: #007bff;
+            color: #fff;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #004085;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .card-desc {
+            font-size: 0.8rem;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #002752;
+            color: #fff;
+            text-align: center;
+            padding: 25px 20px;
+            margin-top: 40px;
+        }
+
+        .slogan {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffca28;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            header .school-name { font-size: 1.5rem; }
+            header .main-title { font-size: 1.1rem; padding: 4px 12px; }
+            header .week-badge { font-size: 0.9rem; padding: 6px 16px; }
+            .row-1, .row-2, .row-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. TIÊU ĐỀ Ở TRÊN (ĐÃ CẢI TIẾN) -->
+    <header>
+        <div class="header-container">
+            <div class="sub-title">UBND XÃ HÒA TRÍ</div>
+            <div class="school-name">Trường THCS Hòa Trí</div>
+            <div class="main-title">Trang Theo Dõi Thông Tin Và Quản Lý Hồ Sơ Nội Bộ</div>
+            <div class="week-badge">
+                <span class="week-text" id="current-week">TUẦN THỨ 01 (07/09/2026 - 12/09/2026), NĂM HỌC 2026-2027</span>
+            </div>
+		<br>
+	    <div> (Lưu ý: Đăng nhập đúng hộp thư điện tử cá nhân để truy cập được vào các đề mục!)</div>
+        </div>
+    </header>
+
+    <!-- 2. NỘI DUNG CHÍNH (8 DÒNG - 16 MỤC) -->
+    <main>
+        <div class="grid-container">
+
+            <!-- Dòng 1 -->
+            <div class="row-1">
+                <a href="https://drive.google.com/drive/folders/1e009P_gFOqO5Nt9ONc4bUk5RVuK6gRzy?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">📜</div>
+                    <div class="card-title">Văn Bản Chỉ Đạo - Hướng Dẫn</div>
+                    <div class="card-desc">Cập nhật văn bản chỉ đạo, hướng dẫn của các cấp.</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1DVEGEU27ve3fzJm0x5YVl1xXWE3DCxjm?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">🗂️</div>
+                    <div class="card-title">Văn Bản - Kế Hoạch Nhà Trường</div>
+                    <div class="card-desc">Văn bản và kế hoạch triển khai nhiệm vụ của nhà trường.</div>
+                </a>
+            </div>
+
+            <!-- Dòng 2 -->
+            <div class="row-2">
+                <a href="https://drive.google.com/drive/folders/1WYjxj32JniSGlta-mBYSQRqGIGTz-hqd?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">📚</div>
+                    <div class="card-title">Chuyên Môn - Kế Hoạch Giáo Dục</div>
+                    <div class="card-desc">Quản lý kế hoạch giáo dục và hồ sơ chuyên môn của nhà trường.</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1GDrl1v9UBLKvIp6wZDiY-UVzYvCfyw5p?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">👥</div>
+                    <div class="card-title">Hoạt Động Các Tổ Chuyên Môn</div>
+                    <div class="card-desc">Theo dõi kế hoạch, sinh hoạt và hoạt động của 5 tổ chuyên môn.</div>
+                </a>
+            </div>
+
+            <!-- Dòng 3 -->
+            <div class="row-3">
+                <a href="https://drive.google.com/drive/folders/17YWkPcZWxgKUl2Kfyk6YK22W1BX6vCO0?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">🏫</div>
+                    <div class="card-title">Hoạt Động Điểm Chính - Các Phân Hiệu</div>
+                    <div class="card-desc">Theo dõi hoạt động tại điểm chính và các phân hiệu.</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1OZ0qVBfLKGuuGS25gXz_BSfnHa8tLoc9?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">📝</div>
+                    <div class="card-title">Hồ Sơ - Kế Hoạch Bài Dạy Giáo Viên</div>
+                    <div class="card-desc">Quản lý và theo dõi hồ sơ, kế hoạch bài dạy của giáo viên.</div>
+                </a>
+            </div>
+
+            <!-- Dòng 4 -->
+            <div class="row-1">
+                <a href="https://drive.google.com/drive/folders/1ZdjMReNA90kA3LZ5c8zxqCYEi0wOboXK?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">✅</div>
+                    <div class="card-title">Kiểm Tra - Đánh Giá</div>
+                    <div class="card-desc">Quản lý nội dung kiểm tra, đánh giá và các hồ sơ liên quan.</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1LTfS3TakxOvl8iIyze9CLaYdEJZeGbQe?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">👤</div>
+                    <div class="card-title">Nhân Sự - Phân Công - Thời Khóa Biểu</div>
+                    <div class="card-desc">Theo dõi nhân sự, phân công chuyên môn và thời khóa biểu.</div>
+                </a>
+            </div>
+
+            <!-- Dòng 5 -->
+            <div class="row-2">
+                <a href="https://drive.google.com/drive/folders/1QmTjY18rPcxmON-NmSp-Rtf2cmf3ZhXO?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">🏆</div>
+                    <div class="card-title">Thi Đua - Đánh Giá</div>
+                    <div class="card-desc">Theo dõi công tác thi đua, đánh giá và xếp loại.</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1Imql0-HXpY-xl78ngbbL_1ZONIdKTk7q?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">📚</div>
+                    <div class="card-title">Thư Viện - Thiết Bị</div>
+                    <div class="card-desc">Quản lý hoạt động thư viện, thiết bị và học liệu dùng chung.</div>
+                </a>
+            </div>
+
+            <!-- Dòng 6 -->
+            <div class="row-3">
+                <a href="https://drive.google.com/drive/folders/1mTUurWGa4CXZS_DtSbCqwtIAHxI3DQfP?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">🩺</div>
+                    <div class="card-title">Y Tế - An Toàn Trường Học</div>
+                    <div class="card-desc">Theo dõi y tế học đường, sức khỏe và công tác an toàn trường học.</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1KiGCf1Vog_ZAwvSp91sg-Pd8Sn9e3vMx?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">🎓</div>
+                    <div class="card-title">Công Tác Học Sinh - Đoàn Đội</div>
+                    <div class="card-desc">Quản lý công tác học sinh, nề nếp và hoạt động Đoàn - Đội.</div>
+                </a>
+            </div>
+
+            <!-- Dòng 7 -->
+            <div class="row-1">
+                <a href="https://drive.google.com/drive/folders/1poQA-7U7YUarZXCQWL_rSw6JSLdX4JEo?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">📋</div>
+                    <div class="card-title">Phổ Cập Giáo Dục</div>
+                    <div class="card-desc">Quản lý hồ sơ, số liệu và minh chứng công tác phổ cập giáo dục.</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1TPM8EDa7Bso7pSqLFFvb3WJo_cvGqfsS?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">🎯</div>
+                    <div class="card-title">Kiểm Định Chất Lượng Giáo Dục</div>
+                    <div class="card-desc">Quản lý hồ sơ tự đánh giá, kiểm định chất lượng và minh chứng.</div>
+                </a>
+            </div>
+
+            <!-- Dòng 8 -->
+            <div class="row-2">
+                <a href="https://drive.google.com/drive/folders/10nNWsHSzX8hOJhFUJpjc50v6l2VIj8E2?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">🏢</div>
+                    <div class="card-title">CSVC - Tài Sản - Tài Chính</div>
+                    <div class="card-desc">Theo dõi cơ sở vật chất, tài sản và hồ sơ tài chính liên quan.</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1fnC9jIlyLYl_vEepcCW8IAzfjcS0z3YY?usp=sharing" target="_blank" class="card">
+                    <div class="card-icon" aria-hidden="true">📊</div>
+                    <div class="card-title">Báo Cáo - Minh Chứng</div>
+                    <div class="card-desc">Tập hợp báo cáo, số liệu và minh chứng phục vụ quản lý.</div>
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 3. KHẨU HIỆU DƯỚI CÙNG -->
+    <footer>
+        <div class="slogan">
+            ◆ &nbsp; Đoàn Kết - Phát Triển - Đổi Mới - Sáng Tạo &nbsp; ◆
+        </div>
+    </footer>
+
+    <!-- JS TỰ ĐỘNG LẤY TUẦN HỌC VÀ HIỂN THỊ NGÀY THÁNG -->
+    <script>
+        // Dữ liệu lịch học
+        const schedule = [
+            { week: "01", start: "2026-09-07", end: "2026-09-12" },
+            { week: "02", start: "2026-09-14", end: "2026-09-19" },
+            { week: "03", start: "2026-09-21", end: "2026-09-26" },
+            { week: "04", start: "2026-09-28", end: "2026-10-03" },
+            { week: "05", start: "2026-10-05", end: "2026-10-10" },
+            { week: "06", start: "2026-10-12", end: "2026-10-17" },
+            { week: "07", start: "2026-10-19", end: "2026-10-24" },
+            { week: "08", start: "2026-10-26", end: "2026-10-31" },
+            { week: "09", start: "2026-11-02", end: "2026-11-07" },
+            { week: "10", start: "2026-11-09", end: "2026-11-14" },
+            { week: "11", start: "2026-11-16", end: "2026-11-21" },
+            { week: "12", start: "2026-11-23", end: "2026-11-28" },
+            { week: "13", start: "2026-11-30", end: "2026-12-05" },
+            { week: "14", start: "2026-12-07", end: "2026-12-12" },
+            { week: "15", start: "2026-12-14", end: "2026-12-19" },
+            { week: "16", start: "2026-12-21", end: "2026-12-26" },
+            { week: "17", start: "2026-12-28", end: "2027-01-02" },
+            { week: "18", start: "2027-01-04", end: "2027-01-09" },
+            { week: "dự trữ", start: "2027-01-11", end: "2027-01-16" },
+            { week: "19", start: "2027-01-18", end: "2027-01-23" },
+            { week: "20", start: "2027-01-25", end: "2027-01-30" },
+            { week: "21", start: "2027-02-01", end: "2027-02-13" },
+            { week: "22", start: "2027-02-15", end: "2027-02-20" },
+            { week: "23", start: "2027-02-22", end: "2027-02-27" },
+            { week: "24", start: "2027-03-01", end: "2027-03-06" },
+            { week: "25", start: "2027-03-08", end: "2027-03-13" },
+            { week: "26", start: "2027-03-15", end: "2027-03-20" },
+            { week: "27", start: "2027-03-22", end: "2027-03-27" },
+            { week: "28", start: "2027-03-29", end: "2027-04-03" },
+            { week: "29", start: "2027-04-05", end: "2027-04-10" },
+            { week: "30", start: "2027-04-12", end: "2027-04-17" },
+            { week: "31", start: "2027-04-19", end: "2027-04-24" },
+            { week: "32", start: "2027-04-26", end: "2027-05-01" },
+            { week: "33", start: "2027-05-03", end: "2027-05-08" },
+            { week: "34", start: "2027-05-10", end: "2027-05-15" },
+            { week: "35", start: "2027-05-17", end: "2027-05-22" },
+            { week: "dự trữ", start: "2027-05-24", end: "2027-05-29" }
+        ];
+
+        // Hàm chuyển đổi định dạng ngày: yyyy-mm-dd -> dd/mm/yyyy
+        function formatDate(dateStr) {
+            const parts = dateStr.split('-');
+            const year = parts[0];
+            const month = parts[1];
+            const day = parts[2];
+            return `${day}/${month}/${year}`;
+        }
+
+        // Hàm lấy thông tin tuần hiện tại
+        function getCurrentWeekInfo() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            for (let item of schedule) {
+                const startDate = new Date(item.start + 'T00:00:00');
+                const endDate = new Date(item.end + 'T23:59:59');
+
+                if (today >= startDate && today <= endDate) {
+                    return {
+                        week: item.week,
+                        start: item.start,
+                        end: item.end
+                    };
+                }
+            }
+
+            return null;
+        }
+
+        // Cập nhật hiển thị
+        const weekInfo = getCurrentWeekInfo();
+        const weekDisplay = document.getElementById("current-week");
+
+        if (weekInfo) {
+            // Định dạng: TUẦN THỨ 01 (07/09/2026 - 12/09/2026), NĂM HỌC 2026-2027
+            let weekNumber = weekInfo.week;
+            let weekText = '';
+
+            if (weekNumber === "dự trữ") {
+                weekText = `TUẦN DỰ TRỮ (${formatDate(weekInfo.start)} - ${formatDate(weekInfo.end)}), NĂM HỌC 2026-2027`;
+            } else {
+                weekText = `TUẦN THỨ ${weekNumber} (${formatDate(weekInfo.start)} - ${formatDate(weekInfo.end)}), NĂM HỌC 2026-2027`;
+            }
+
+            weekDisplay.innerText = weekText;
+        } else {
+            // Nếu không tìm thấy tuần (ví dụ ngoài khoảng thời gian)
+            weekDisplay.innerText = `TUẦN THỨ 01 (07/09/2026 - 12/09/2026), NĂM HỌC 2026-2027`;
+        }
+    </script>
+
+
+</body></html>
